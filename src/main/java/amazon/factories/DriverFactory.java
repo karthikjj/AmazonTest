@@ -12,6 +12,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.AfterSuite;
 
 @Slf4j
 public class DriverFactory {
@@ -70,4 +71,13 @@ public class DriverFactory {
                 throw new IllegalStateException(String.format("%s is not a valid browser choice. Pick your browser from %s.", BROWSER, java.util.Arrays.asList(BROWSER.values())));
         }
     }
+
+    @AfterSuite
+    public static void quitDriver() {
+
+        if (getDriver() != null) {
+            getDriver().quit();
+        }
+    }
+
 }
