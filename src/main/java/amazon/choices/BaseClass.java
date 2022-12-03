@@ -74,19 +74,6 @@ public class BaseClass  {
         driver.manage().window().maximize();
     }
 
-    /*
-    @BeforeClass
-    public synchronized void beforeClass() {
-        test = extent.createTest(getClass().getName());
-    }
-
-
-    @BeforeMethod
-    public synchronized void beforeMethod(Method method) throws NoSuchMethodException {
-        test = extent.createTest(method.getName());
-    }
-
-     */
 
     @AfterMethod
     public void getResult(ITestResult result) {
@@ -104,9 +91,9 @@ public class BaseClass  {
     }
 
 
+    //to write or update test information to reporter
     @AfterTest
     public void tearDown() {
-        //to write or update test information to reporter
         extent.flush();
     }
 

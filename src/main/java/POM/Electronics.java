@@ -10,7 +10,9 @@ import java.util.List;
 
 import static Utils.Utilities.*;
 
-
+/**
+ * Electronics Page Related Elements and methods
+ */
 public class Electronics {
 
     private static final By SORT  = By.xpath("//select[contains(@id,'sort')]");
@@ -34,17 +36,33 @@ public class Electronics {
 
     }
 
+    /**
+     * Go to Required Refinements
+     * @param driver
+     * @param value - Refinements Name
+     * @return
+     */
     public boolean goToRequiredRefinement(WebDriver driver,String value){
         boolean result =  scrollPageTillElementIsVisible(driver,Go_To_REFINEMENTS(value));
         return result;
     }
 
+    /**
+     * Select Required Refinement
+     * @param driver
+     * @param refinement - Refinement name
+     * @param value - Refinement value
+     */
     public void selectRequiredRefinement(WebDriver driver,String refinement ,String value){
         goToRequiredRefinement(driver,refinement);
         moveToElement(driver,SHOP_BY_REFINEMENTS(refinement,value));
         actionsClick(driver,SHOP_BY_REFINEMENTS(refinement,value));
     }
 
+    /**
+     * Sort By Price High To Low
+     * @param driver
+     */
     public void sortByPriceHighToLow(WebDriver driver){
         boolean result =  Utilities.scrollToTheElement(driver,SORT);
         if(result){
@@ -52,17 +70,32 @@ public class Electronics {
         }
     }
 
+    /**
+     * Select Search Result Based On Index
+     * @param driver
+     * @param index - selects the required result in current page
+     */
     public void selectSearchResultBasedOnIndex(WebDriver driver,String index){
         moveToElement(driver,GET_SEARCH_RESULT_BASED_ON_INDEX(index));
         actionsClick(driver,GET_SEARCH_RESULT_BASED_ON_INDEX(index));
     }
 
+    /**
+     * Go to About This Item Section And Get Text
+     * @param driver
+     * @return
+     */
     public String getAboutThisItem(WebDriver driver){
         scrollPageTillElementIsVisible(driver,ABOUT_THIS_ITEM);
         return getElementText(driver, ABOUT_THIS_ITEM);
 
     }
 
+    /**
+     * Get All Text in About This Item Section
+     * @param driver
+     * @return
+     */
     public List<String> getAboutThisItemSection(WebDriver driver){
         scrollPageTillElementIsVisible(driver,ABOUT_THIS_ITEM_SECTION);
         try{
