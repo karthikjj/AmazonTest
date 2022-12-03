@@ -14,7 +14,7 @@ import static Utils.Utilities.*;
 public class Electronics {
 
     private static final By SORT  = By.xpath("//select[contains(@id,'sort')]");
-
+    private static final By SHOW_MORE  = By.xpath("//a//span[text()='Show More']");
     private static final By ABOUT_THIS_ITEM_SECTION  = By.xpath("//div[@id='feature-bullets']//ul//span");
     private static final By ABOUT_THIS_ITEM  = By.xpath("//div[@id='feature-bullets']/h1");
     private static final String SORT_BY_PRICE_H2L = "price-desc-rank";
@@ -65,13 +65,25 @@ public class Electronics {
 
     public List<String> getAboutThisItemSection(WebDriver driver){
         scrollPageTillElementIsVisible(driver,ABOUT_THIS_ITEM_SECTION);
+        try{
+            WebElement element = findElement(driver,SHOW_MORE);
+            if(element.isDisplayed()){
+                moveToElement(driver,SHOW_MORE);
+                actionsClick(driver,SHOW_MORE);
+            }
+        }
+        catch(Exception e){
+
+        }
         List<String> sectionText = new ArrayList<String>();
         List<WebElement> elementList = findElements(driver,ABOUT_THIS_ITEM_SECTION);
         System.out.println("About this item :");
         for(WebElement element : elementList){
             String text = element.getText().trim();
-            sectionText.add(text);
-            System.out.println(">>"+text);
+            if(text!=null || !text.isBlank() || !text.isEmpty()) {
+                sectionText.add(text);
+                System.out.println(">>" + text);
+            }
         }
         return sectionText;
     }

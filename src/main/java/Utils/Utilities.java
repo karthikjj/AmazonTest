@@ -1,5 +1,6 @@
 package Utils;
 
+import Report.ExtentReport;
 import amazon.choices.WaitType;
 import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.By;
@@ -19,9 +20,9 @@ import java.util.concurrent.TimeUnit;
 
 import static org.seleniumhq.jetty9.server.HttpChannelState.Action.WAIT;
 
-public class Utilities {
+public class Utilities extends ExtentReport {
 
-    private static final long timeout = 50;
+    public static final long timeout = 60;
 
 
     public Utilities(){
@@ -39,7 +40,7 @@ public class Utilities {
     }
 
     public static void waitTillVisible(WebDriver driver){
-        new WebDriverWait(driver, Duration.ofSeconds(180))
+        new WebDriverWait(driver, Duration.ofSeconds(timeout))
                 .until(d -> ((JavascriptExecutor)d)
                         .executeScript("return document.readyState").equals("complete"));
     }
@@ -62,28 +63,19 @@ public class Utilities {
     public static void sendKeys(WebDriver driver ,By by, String value) {
         WebElement element = waitUntilPresenceOfElementLocated(driver ,by);
         element.sendKeys(value);
-        //ExtentLogger.pass("Value: " + value + " is successfully passed in textBox: " + element.getText(), true);
     }
 
     public static void click(WebDriver driver ,By by) {
         WebElement element = waitUntilElementToBeClickable(driver ,by);
         element.click();
-
-       // ExtentLogger.pass("Clicking on: "+BOLD_START + element.getText() + BOLD_END , true);
-
     }
 
     public static void click(WebDriver driver,By by, WaitType waitType) {
         WebElement element = getElementAfterWait(driver,by, waitType);
-        //  ExtentLogger.pass("Element: " + BOLD_START + element.getText() + BOLD_END + " is clicked successfully");
-        //  ExtentLogger.pass(BOLD_START + element.getText() + BOLD_END + " is clicked successfully", true);
-        //ExtentLogger.pass("Clicking on: "+BOLD_START + element.getText() + BOLD_END , true);
         element.click();
-
     }
 
     private static WebElement getElementAfterWait(WebDriver driver ,By by, WaitType waitType) {
-        //waitUntilElementToBeClickable(by).click();
         WebElement element = null;
         if (waitType == WaitType.PRESENCE) {
             element = waitUntilPresenceOfElementLocated(driver,by);
@@ -97,33 +89,21 @@ public class Utilities {
 
     public static void click(WebDriver driver ,By by, WaitType waitType, String elementName) {
         WebElement element = getElementAfterWait(driver,by, waitType);
-//        ExtentLogger.pass("Element: " + BOLD_START + elementName + BOLD_END + " is clicked successfully.");
-        //ExtentLogger.pass(BOLD_START + elementName + BOLD_END + " is clicked successfully.", true);
-       // ExtentLogger.pass("Clicking on: "+BOLD_START + elementName + BOLD_END , true);
         element.click();
-
     }
-
 
     public static String getElementText(WebDriver driver,By by) {
         WebElement element = waitUntilPresenceOfElementLocated(driver,by);
-        //ExtentLogger.info("Element Text: " + BOLD_START + element.getText() + BOLD_END);
         return element.getText();
     }
 
     public static String getPageTitle(WebDriver driver) {
         String title = driver.getTitle();
-        //ExtentLogger.info("Page title: " + BOLD_START + title + BOLD_END);
         return title;
     }
 
-
     public static WebElement getElement(WebDriver driver ,By by) {
         return waitUntilElementToBeVisible(driver,by);
-    }
-
-    public static void captureScreenshot() {
-        //ExtentLogger.captureScreenshot();
     }
 
     public static void waitForSomeTime() {
@@ -136,7 +116,6 @@ public class Utilities {
 
     public static String getWebPageURL(WebDriver driver) {
         String url = driver.getCurrentUrl();
-        //ExtentLogger.info("Page URL: " + BOLD_START + url + BOLD_END);
         return url;
     }
 
@@ -144,7 +123,6 @@ public class Utilities {
         WebElement element = waitUntilPresenceOfElementLocated(driver,by);
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
-        //ExtentLogger.info("Element Text: " + BOLD_START + element.getText() + BOLD_END);
         return element;
     }
 
@@ -152,7 +130,14 @@ public class Utilities {
         WebElement element = waitUntilPresenceOfElementLocated(driver,by);
         Actions actions = new Actions(driver);
         actions.click(element).perform();
-        //ExtentLogger.info("Element Text: " + BOLD_START + element.getText() + BOLD_END);
+        return element;
+    }
+
+    public static WebElement moveAndClick(WebDriver driver,By by) {
+        WebElement element = waitUntilPresenceOfElementLocated(driver,by);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element);
+        actions.click(element).build().perform();
         return element;
     }
 
